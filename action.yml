@@ -83,7 +83,8 @@ runs:
           paperkey \
           gpg \
           ca-certificates \
-          u-boot-tools
+          u-boot-tools \
+          abootimg
         sudo pip3 install meson
         sudo pip3 install ninja
         
@@ -187,15 +188,33 @@ runs:
         [ "$IMGTYPE" != "factory" ] && unset IMGTYPE
         sudo mv -v $GITHUB_WORKSPACE/arm-profiles /usr/share/manjaro-arm-tools/profiles
         if [ -z ${{ inputs.overlay-repo }} ]; then 
-          sudo buildarmimg -d $DEVICE -e $EDITION -v $VERSION -b $BRANCH -i packages ${IMGTYPE:+-f}
+          sudo buildarmimg -d $DEVICE -e $EDITION -v $VERSION -b $BRANCH -i packages -x ${IMGTYPE:+-f}
         else
-          sudo buildarmimg -d $DEVICE -e $EDITION -v $VERSION -b $BRANCH -k ${{ inputs.overlay-repo }} -i packages ${IMGTYPE:+-f}
+          sudo buildarmimg -d $DEVICE -e $EDITION -v $VERSION -b $BRANCH -k ${{ inputs.overlay-repo }} -i packages -x ${IMGTYPE:+-f}
         fi
           
         ls -lasih /var/cache/manjaro-arm-tools/img
           
-        FILE_PATH=$(find /var/cache/manjaro-arm-tools/img -type f -name "*.img.xz" -exec stat -c '%Y %n' {} \; | sort -nr | awk 'NR==1 {print $2}')
-        cp -v $FILE_PATH .
+        FILE_PATH=$(find /var/cache/manjaro-arm-tools/img -type f -name "*.img" -exec stat -c '%Y %n' {} \; | sort -nr | awk 'NR==1 {print $2}')
+        # mount img
+        LOOP=`sudo losetup -f --show -P $FILE_PATH`
+        BOOT_LOOP="$LOOP"p1
+        ROOT_LOOP="$LOOP"p2
+        sudo mkdir {/var/cache/manjaro-arm-tools/boot,/var/cache/manjaro-arm-tools/rootfs}
+        sudo mount $BOOT_LOOP /var/cache/manjaro-arm-tools/boot
+        sudo mount $ROOT_LOOP /var/cache/manjaro-arm-tools/root
+        ls -lasih /var/cache/manjaro-arm-tools/boot 
+        cp /var/cache/manjaro-arm-tools/boot/vmlinuz-linux-sdm845 ./vmlinuz-linux-sdm845
+        cat /var/cache/manjaro-arm-tools/boot/dtb/linux-sdm845/qcom/sdm845-oneplus-fajita.dtb >> ./vmlinuz-linux-sdm845
+        sudo abootimg --create ./manjaro-boot.img -k ./vmlinuz-linux-sdm845 -r /var/cache/manjaro-arm-tools/boot/initramfs-linux-sdm845.img -c "cmdline=efi=novamap clk_ignore_unused pd_ignore_unused video=efifb:off root=/dev/sda17"
+        sudo cp -r /var/cache/manjaro-arm-tools/boot /var/cache/manjaro-arm-tools/root/boot
+        sudo sed 1d /var/cache/manjaro-arm-tools/root/etc/fstab
+        sudo umount  /var/cache/manjaro-arm-tools/root/
+        dd if=$ROOT_LOOP of=/var/cache/manjaro-arm-tools/img/"$(basename $FILE_PATH .img)"-root.img  bs=4M 
+        FILE_PATH1=$(find /var/cache/manjaro-arm-tools/img -type f -name "*root.img" -exec stat -c '%Y %n' {} \; | sort -nr | awk 'NR==1 {print $2}')
+        tar -Jcvf "$FILE_PATH".tar.xz FILE_PATH1 ./manjaro-boot.img
+        FILE_PATH=$(find ./ -type f -name "*.tar.gz" -exec stat -c '%Y %n' {} \; | sort -nr | awk 'NR==1 {print $2}')
+
         echo "file-path=$(basename $FILE_PATH)" >> $GITHUB_OUTPUT
           
         sha256sum $(basename $FILE_PATH) > $(basename $FILE_PATH).sha256
