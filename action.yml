@@ -213,6 +213,7 @@ runs:
         sudo dd if=$ROOT_LOOP of=/var/cache/manjaro-arm-tools/img/"$(basename $FILE_PATH .img)"-root.img  bs=4M 
         FILE_PATH1=$(find /var/cache/manjaro-arm-tools/img -type f -name "*root.img" -exec stat -c '%Y %n' {} \; | sort -nr | awk 'NR==1 {print $2}')
         tar -Jcvf "$FILE_PATH".tar.xz $FILE_PATH1 ./manjaro-boot.img
+        ls -lasih ./
         FILE_PATH=$(find ./ -type f -name "*.tar.gz" -exec stat -c '%Y %n' {} \; | sort -nr | awk 'NR==1 {print $2}')
 
         echo "file-path=$(basename $FILE_PATH)" >> $GITHUB_OUTPUT
