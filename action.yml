@@ -200,7 +200,7 @@ runs:
         LOOP=`sudo losetup -f --show -P $FILE_PATH`
         BOOT_LOOP="$LOOP"p1
         ROOT_LOOP="$LOOP"p2
-        sudo mkdir {/var/cache/manjaro-arm-tools/boot,/var/cache/manjaro-arm-tools/rootfs}
+        sudo mkdir {/var/cache/manjaro-arm-tools/boot,/var/cache/manjaro-arm-tools/root}
         sudo mount $BOOT_LOOP /var/cache/manjaro-arm-tools/boot
         sudo mount $ROOT_LOOP /var/cache/manjaro-arm-tools/root
         ls -lasih /var/cache/manjaro-arm-tools/boot 
