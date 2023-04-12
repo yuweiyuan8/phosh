@@ -214,7 +214,7 @@ runs:
         FILE_PATH1=$(find /var/cache/manjaro-arm-tools/img -type f -name "*root.img" -exec stat -c '%Y %n' {} \; | sort -nr | awk 'NR==1 {print $2}')
         tar -Jcvf "$FILE_PATH".tar.xz $FILE_PATH1 ./manjaro-boot.img
         ls -lasih ./
-        FILE_PATH=$(find ./ -type f -name "*.tar.gz" -exec stat -c '%Y %n' {} \; | sort -nr | awk 'NR==1 {print $2}')
+        FILE_PATH=./"$FILE_PATH".tar.xz
 
         echo "file-path=$(basename $FILE_PATH)" >> $GITHUB_OUTPUT
           
