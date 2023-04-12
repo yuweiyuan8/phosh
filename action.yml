@@ -210,7 +210,7 @@ runs:
         sudo cp -r /var/cache/manjaro-arm-tools/boot /var/cache/manjaro-arm-tools/root/boot
         sudo sed 1d /var/cache/manjaro-arm-tools/root/etc/fstab
         sudo umount  /var/cache/manjaro-arm-tools/root/
-        dd if=$ROOT_LOOP of=/var/cache/manjaro-arm-tools/img/"$(basename $FILE_PATH .img)"-root.img  bs=4M 
+        sudo dd if=$ROOT_LOOP of=/var/cache/manjaro-arm-tools/img/"$(basename $FILE_PATH .img)"-root.img  bs=4M 
         FILE_PATH1=$(find /var/cache/manjaro-arm-tools/img -type f -name "*root.img" -exec stat -c '%Y %n' {} \; | sort -nr | awk 'NR==1 {print $2}')
         tar -Jcvf "$FILE_PATH".tar.xz FILE_PATH1 ./manjaro-boot.img
         FILE_PATH=$(find ./ -type f -name "*.tar.gz" -exec stat -c '%Y %n' {} \; | sort -nr | awk 'NR==1 {print $2}')
