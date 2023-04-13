@@ -216,10 +216,11 @@ runs:
         echo "tar -Jcvf $FILE_PATH.tar.xz "
         ls -lasih /var/cache/manjaro-arm-tools/img
         FILE_PATH= $(find /var/cache/manjaro-arm-tools/img -type f -name "*.img.tar.xz" -exec stat -c '%Y %n' {} \; | sort -nr | awk 'NR==1 {print $2}')
-        chmod 777 $FILE_PATH
+        echo "chmod file"
+        sudo chmod 777 $FILE_PATH
         cp -v $FILE_PATH .
         echo "file-path=$(basename $FILE_PATH)" >> $GITHUB_OUTPUT
-          
+        echo "aaa"  
         sha256sum $(basename $FILE_PATH) > $(basename $FILE_PATH).sha256
         echo "file-sha256=$(basename $FILE_PATH).sha256" >> $GITHUB_OUTPUT
         mktorrent -v -a udp://tracker.opentrackr.org:1337 -l 21 -w https://github.com/$GITHUB_REPOSITORY/releases/download/$VERSION/$(basename $FILE_PATH) -o $(basename $FILE_PATH).torrent $(basename $FILE_PATH)
