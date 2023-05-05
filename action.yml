@@ -181,7 +181,7 @@ runs:
         wget https://github.com/silime/kernel-builder/releases/download/linux_firmware-20220509-5/linux-firmware-oneplus-sdm845-20220509.b19cbdc-1-any.pkg.tar.zst -P packages
         wget https://github.com/silime/kernel-builder/releases/download/linux_firmware-20220509-5/linux-firmware-oneplus-sdm845-qcom-20220509.b19cbdc-1-any.pkg.tar.zst -P packages
         wget https://github.com/silime/kernel-builder/releases/download/linux_firmware-20220509-5/linux-firmware-oneplus-sdm845-whence-20220509.b19cbdc-1-any.pkg.tar.zst -P packages
-        wget https://github.com/silime/kernel-builder/releases/download/arch-6.0-rc5/linux-sdm845-6.0-0-aarch64.pkg.tar.zst -P packages
+        wget https://github.com/silime/kernel-builder/releases/download/arch-6.3/linux-sdm845-6.3-0-aarch64.pkg.tar.zst -P packages
         wget https://github.com/silime/kernel-builder/releases/download/alsa-ucm-oneplus-0.5.9-1/alsa-ucm-oneplus-0.5.9-0-any.pkg.tar.zst -P packages
         wget https://github.com/silime/kernel-builder/releases/download/ModemManager/modemmanager-1.18.10-2-aarch64.pkg.tar.zst -P packages
         wget https://github.com/silime/kernel-builder/releases/download/q6voice/q6voiced-0_git20210408-0-aarch64.pkg.tar.zst -P packages
