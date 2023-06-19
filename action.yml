@@ -178,13 +178,18 @@ runs:
         #CI_GPG_PASSPHRASE: ${{ inputs.CI_GPG_PASSPHRASE }}
       run: |
         mkdir packages
-        wget https://github.com/silime/kernel-builder/releases/download/linux_firmware-20220509-5/linux-firmware-oneplus-sdm845-20220509.b19cbdc-1-any.pkg.tar.zst -P packages
-        wget https://github.com/silime/kernel-builder/releases/download/linux_firmware-20220509-5/linux-firmware-oneplus-sdm845-qcom-20220509.b19cbdc-1-any.pkg.tar.zst -P packages
-        wget https://github.com/silime/kernel-builder/releases/download/linux_firmware-20220509-5/linux-firmware-oneplus-sdm845-whence-20220509.b19cbdc-1-any.pkg.tar.zst -P packages
-        wget https://github.com/silime/kernel-builder/releases/download/arch-6.3/linux-sdm845-6.3-0-aarch64.pkg.tar.zst -P packages
-        wget https://github.com/silime/kernel-builder/releases/download/alsa-ucm-oneplus-0.5.9-1/alsa-ucm-oneplus-0.5.9-0-any.pkg.tar.zst -P packages
+        wget https://github.com/silime/kernel-builder/releases/download/linux_firmware-20230515/linux-firmware-oneplus-sdm845-20230515.51290942-1-any.pkg.tar.zst -P packages
+        wget https://github.com/silime/kernel-builder/releases/download/linux_firmware-20230515/linux-firmware-oneplus-sdm845-qcom-20230515.51290942-1-any.pkg.tar.zst -P packages
+        wget https://github.com/silime/kernel-builder/releases/download/linux_firmware-20230515/linux-firmware-oneplus-sdm845-sensors-20230515.51290942-1-any.pkg.tar.zst -P packages
+        wget https://github.com/silime/kernel-builder/releases/download/linux_firmware-20230515/linux-firmware-oneplus-sdm845-whence-20230515.51290942-1-any.pkg.tar.zst -P packages
+        wget https://github.com/silime/kernel-builder/releases/download/arch-6.4/linux-sdm845-6.4-0-aarch64.pkg.tar.zst -P packages
+        wget https://github.com/silime/kernel-builder/releases/download/alsa-ucm-oneplus-0.5.10/alsa-ucm-oneplus-0.5.10-0-any.pkg.tar.zst -P packages
         wget https://github.com/silime/kernel-builder/releases/download/ModemManager/modemmanager-1.18.10-2-aarch64.pkg.tar.zst -P packages
         wget https://github.com/silime/kernel-builder/releases/download/q6voice/q6voiced-0_git20210408-0-aarch64.pkg.tar.zst -P packages
+        wget https://github.com/silime/kernel-builder/releases/download/sensors/hexagonrpcd-0.1.0-0-aarch64.pkg.tar.zst -P packages
+        wget https://github.com/silime/kernel-builder/releases/download/sensors/iio-sensor-proxy-3.4+r5+g48cb957-1-aarch64.pkg.tar.zst -P packages
+        wget https://github.com/silime/kernel-builder/releases/download/sensors/libqmi-1.33.5+dev-1-aarch64.pkg.tar.zst -P packages
+        wget https://github.com/silime/kernel-builder/releases/download/sensors/libssc-0.1.3+r2+g0eaa21a-1-aarch64.pkg.tar.zst -P packages
         [ "$IMGTYPE" != "factory" ] && unset IMGTYPE
         sudo mv -v $GITHUB_WORKSPACE/arm-profiles /usr/share/manjaro-arm-tools/profiles
         if [ -z ${{ inputs.overlay-repo }} ]; then 
@@ -206,7 +211,7 @@ runs:
         ls -lasih /var/cache/manjaro-arm-tools/boot 
         cp /var/cache/manjaro-arm-tools/boot/vmlinuz-linux-sdm845 ./vmlinuz-linux-sdm845
         cat /var/cache/manjaro-arm-tools/boot/dtb/linux-sdm845/qcom/sdm845-oneplus-fajita.dtb >> ./vmlinuz-linux-sdm845
-        sudo abootimg --create ./manjaro-boot.img -k ./vmlinuz-linux-sdm845 -r /var/cache/manjaro-arm-tools/boot/initramfs-linux-sdm845.img -c "cmdline=efi=novamap clk_ignore_unused pd_ignore_unused video=efifb:off root=/dev/sda17"
+        sudo abootimg --create ./manjaro-boot.img -k ./vmlinuz-linux-sdm845 -r /var/cache/manjaro-arm-tools/boot/initramfs-linux-sdm845.img -c "cmdline= root=/dev/sda17"
         sudo cp -r /var/cache/manjaro-arm-tools/boot /var/cache/manjaro-arm-tools/root/boot
         sudo sed 1d /var/cache/manjaro-arm-tools/root/etc/fstab
         sudo umount  /var/cache/manjaro-arm-tools/root/
