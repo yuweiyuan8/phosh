@@ -223,7 +223,6 @@ runs:
         sudo chmod 777 $FILE_PATH.tar.xz
         echo "chmod file"
         ls -lasih /var/cache/manjaro-arm-tools/img
-        cp -v $FILE_PATH.tar.xz .
         FILE_PATH=$FILE_PATH.tar.xz
         echo "file-path=$(basename $FILE_PATH)" >> $GITHUB_OUTPUT
         echo "aaa"  
