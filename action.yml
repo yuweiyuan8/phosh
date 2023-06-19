@@ -190,6 +190,7 @@ runs:
         wget https://github.com/silime/kernel-builder/releases/download/sensors/iio-sensor-proxy-3.4+r5+g48cb957-1-aarch64.pkg.tar.zst -P packages
         wget https://github.com/silime/kernel-builder/releases/download/sensors/libqmi-1.33.5+dev-1-aarch64.pkg.tar.zst -P packages
         wget https://github.com/silime/kernel-builder/releases/download/sensors/libssc-0.1.3+r2+g0eaa21a-1-aarch64.pkg.tar.zst -P packages
+        wget https://github.com/silime/kernel-builder/releases/download/sensors/qmic-git-1.0.r0.g4574736-1-aarch64.pkg.tar.zst -P packages
         [ "$IMGTYPE" != "factory" ] && unset IMGTYPE
         sudo mv -v $GITHUB_WORKSPACE/arm-profiles /usr/share/manjaro-arm-tools/profiles
         if [ -z ${{ inputs.overlay-repo }} ]; then 
