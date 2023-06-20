@@ -216,14 +216,18 @@ runs:
         sudo cp -r /var/cache/manjaro-arm-tools/boot /var/cache/manjaro-arm-tools/root/boot
         sudo sed 1d /var/cache/manjaro-arm-tools/root/etc/fstab
         sudo umount  /var/cache/manjaro-arm-tools/root/
+        sudo umount  /var/cache/manjaro-arm-tools/boot/
         sudo dd if=$ROOT_LOOP of=/var/cache/manjaro-arm-tools/img/"$(basename $FILE_PATH .img)"-root.img  bs=4M 
+        sudo rm $FILE_PATH
         FILE_PATH1=$(find /var/cache/manjaro-arm-tools/img -type f -name "*root.img" -exec stat -c '%Y %n' {} \; | sort -nr | awk 'NR==1 {print $2}')
         sudo tar -Jcvf $FILE_PATH.tar.xz $FILE_PATH1 ./manjaro-boot.img
+        sudo rm $FILE_PATH1
         echo "tar -Jcvf $FILE_PATH.tar.xz "
         sudo chmod 777 $FILE_PATH.tar.xz
         echo "chmod file"
         ls -lasih /var/cache/manjaro-arm-tools/img
         FILE_PATH=$FILE_PATH.tar.xz
+        cp -v $FILE_PATH.tar.xz .
         echo "file-path=$(basename $FILE_PATH)" >> $GITHUB_OUTPUT
         echo "aaa"  
         sha256sum $(basename $FILE_PATH) > $(basename $FILE_PATH).sha256
