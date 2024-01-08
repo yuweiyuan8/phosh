@@ -89,8 +89,8 @@ runs:
         sudo pip3 install ninja
         
         # For generic-efi support
-        wget http://ports.ubuntu.com/pool/main/g/grub2-unsigned/grub-efi-arm64-bin_2.06-2ubuntu10_arm64.deb
-        sudo dpkg -x grub-efi-arm64-bin_2.06-2ubuntu10_arm64.deb /
+        wget http://ports.ubuntu.com/pool/main/g/grub2-unsigned/grub-efi-arm64-bin_2.06-2ubuntu17.2_arm64.deb
+        sudo dpkg -x grub-efi-arm64-bin_2.06-2ubuntu17.2_arm64.deb /
           
     - id: install-pacman
       shell: bash
@@ -215,7 +215,7 @@ runs:
         ls -lasih /var/cache/manjaro-arm-tools/boot 
         cp /var/cache/manjaro-arm-tools/boot/vmlinuz-linux-sdm845 ./vmlinuz-linux-sdm845
         cat /var/cache/manjaro-arm-tools/boot/dtb/linux-sdm845/qcom/sdm845-oneplus-fajita.dtb >> ./vmlinuz-linux-sdm845
-        sudo abootimg --create ./manjaro-boot.img -k ./vmlinuz-linux-sdm845 -r /var/cache/manjaro-arm-tools/boot/initramfs-linux-sdm845.img -c "cmdline= root=/dev/sda17"
+        sudo abootimg --create ./manjaro-boot.img -k ./vmlinuz-linux-sdm845 -r /var/cache/manjaro-arm-tools/boot/initramfs-linux-sdm845.img -c "cmdline= root=/dev/sda19"
         sudo cp -r /var/cache/manjaro-arm-tools/boot /var/cache/manjaro-arm-tools/root/boot
         sudo sed 1d /var/cache/manjaro-arm-tools/root/etc/fstab
         sudo umount  /var/cache/manjaro-arm-tools/root/
